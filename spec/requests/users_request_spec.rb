@@ -4,35 +4,50 @@ require 'rails_helper'
 
 RSpec.describe 'Users Requests', type: :request do
   before(:all) do
-    @created_user = create :user, username: 'username', email: 'some@email.com'
+    USER_DATA = {
+      username: 'username',
+      full_name: 'User',
+      email: 'some@email.com',
+      password: 'p1'
+    }.freeze
+
+    @created_user = create :user
   end
 
   after(:all) do
     User.destroy_all
   end
 
-  context 'when use post verb on users path' do
+  context 'when use POST verb on users path' do
     it 'creates a regular user' do
-      user_data = attributes_for(:user, username: 'someGuy')
-      post '/users', params: { user: user_data }
+      USER_DATA = {
+        username: 'renan',
+        full_name: 'Renan',
+        email: 'renan@email.com',
+        password: 'p1'
+      }.freeze
+
+      post '/users', params: { user: USER_DATA }
       expect(response).to redirect_to('/login')
-      expect(User.exists?(username: user_data[:username])).to be true
+      expect(User.exists?(username: USER_DATA[:username])).to be true
     end
   end
 
-  context 'when use put verb on users/:id path' do
+  context 'when use PUT verb on users/:id path' do
     it 'updates a regular user' do
-      update_hash = { email: 'email2@gmail.com', password: 'p2' }
+      update_hash = { full_name: 'Guy', email: 'e@gmail.com', password: 'p2' }
       put "/users/#{@created_user.id}", params: { user: update_hash }
       updated_user = User.find(@created_user.id)
       autheticated_user = updated_user.authenticate(update_hash[:password])
 
       expect(response).to have_http_status(:success)
       expect(autheticated_user.present?).to be true
+      expect(autheticated_user.full_name).to eq(update_hash[:full_name])
+      expect(autheticated_user.email).to eq(update_hash[:email])
     end
   end
 
-  context 'when use get verb on users/:id path' do
+  context 'when use GET verb on users/:id path' do
     it 'gets a json of a regular user' do
       get "/users/#{@created_user.id}"
       expect(response.content_type).to eq('application/json')
