@@ -35,7 +35,7 @@ class UsersController < ApplicationController
   end
 
   def login
-    if session[:user_id]
+    if session[:token]
       flash[:alert] = 'You are already logged in!'
       redirect_to '/app/dashboard'
     else
