@@ -1,0 +1,12 @@
+<%= form_with url:'/sessions' do %>
+  <div class="field_wrapper">
+    <%= label_tag :username, 'Username:' %>
+    <%= text_field_tag :username %>
+  </div>
+  <div class="field_wrapper">
+    <%= label_tag :password, 'Password:' %>
+    <%= password_field_tag :password %>
+  </div>
+  <%= render partial: 'show_errors', locals: { field: :alert } %>
+  <%= submit_tag 'Sign in' %>
+<% end %>
