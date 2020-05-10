@@ -4,14 +4,11 @@ require 'rails_helper'
 
 RSpec.describe 'Users Requests', type: :request do
   before(:all) do
-    USER_DATA = {
-      username: 'username',
-      full_name: 'User',
-      email: 'some@email.com',
-      password: 'p1'
-    }.freeze
-
-    @created_user = create :user
+    @created_user = create :user,
+                           username: 'username',
+                           full_name: 'User',
+                           email: 'some@email.com',
+                           password: 'p1'
   end
 
   after(:all) do
@@ -24,7 +21,8 @@ RSpec.describe 'Users Requests', type: :request do
         username: 'renan',
         full_name: 'Renan',
         email: 'renan@email.com',
-        password: 'p1'
+        password: 'p1',
+        password_confirmation: 'p1'
       }.freeze
 
       post '/users', params: { user: USER_DATA }
