@@ -99,18 +99,27 @@ RSpec.describe 'AutheticationSystem', type: :system do
   end
 
   context 'when autheticating' do
-    it "alerts if username and password don't match" do
-      MESSAGES_LOGIN = {
+    before(:all) do
+      @messages_login = {
         wrong_username: "The username doesn't exist",
         wrong_password: 'Wrong password!'
-      }.freeze
+      }
+    end
 
+    it "alerts if username is wrong" do
       visit '/login'
-      fill_in 'user_username', with: 'wrongusername'
-      fill_in 'user_password', with: 'wrongpassword'
+      fill_in 'username', with: 'wrongusername'
+      fill_in 'password', with: 'wrongpassword'
       click_button('commit')
-      expect(page).to have_text(MESSAGES_LOGIN[:wrong_username])
-      expect(page).to have_text(MESSAGES_LOGIN[:wrong_password])
+      expect(page).to have_text(@messages_login[:wrong_username])
+    end
+
+    it "alerts if username and password don't match" do
+      visit '/login'
+      fill_in 'username', with: @created_user.username
+      fill_in 'password', with: 'wrongpassword'
+      click_button('commit')
+      expect(page).to have_text(@messages_login[:wrong_password])
     end
   end
 end
