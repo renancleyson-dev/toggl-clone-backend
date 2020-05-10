@@ -2,21 +2,20 @@
 
 # CRUD operations on user model controller.
 class UsersController < ApplicationController
-  protect_from_forgery with: :null_session
+  protect_from_forgery with: :reset_session
+
   def new
     @user = User.new
   end
 
   def create
     @user = User.new(user_params)
-    @user.username = params[:user][:username]
-
     if @user.save
       flash[:notice] = 'User has been successfully created'
       redirect_to '/login'
     else
-      flash.now[:alert] = @user.errors.full_messages.join("\n")
-      render :new
+      @user.errors_by_field.each { |field, msg| flash[field] = msg }
+      redirect_to '/sign_up'
     end
   end
 
@@ -47,6 +46,10 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:full_name, :email, :password)
+    params.require(:user).permit(:username,
+                                 :full_name,
+                                 :email,
+                                 :password,
+                                 :password_confirmation)
   end
 end

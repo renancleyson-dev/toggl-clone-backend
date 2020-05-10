@@ -1,0 +1,28 @@
+<%= form_with model: @user do |f| %>
+  <div class="field_wrapper">
+    <%= f.label :username, 'Username:' %>
+    <%= f.text_field :username %>
+  </div>
+    <%= render partial: 'show_errors', locals: { field: :username } %>
+  <div class="field_wrapper">
+    <%= f.label :full_name, 'Full name:' %>
+    <%= f.text_field :full_name %>
+  </div>
+    <%= render partial: 'show_errors', locals: { field: :full_name } %>
+  <div class="field_wrapper">
+    <%= f.label :email, 'Email:' %>
+    <%= f.email_field :email %>
+  </div>
+    <%= render partial: 'show_errors', locals: { field: :email } %>
+  <div class="field_wrapper">
+    <%= f.label :password, 'Password:' %>
+    <%= f.password_field :password %>
+  </div>
+    <%= render partial: 'show_errors', locals: { field: :password } %>
+  <div class="field_wrapper">
+    <%= f.label :password_confirmation, 'Password Confirmation:' %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+    <%= render partial: 'show_errors', locals: { field: :password_confirmation } %>
+    <%= f.submit value: 'Sign up' %>
+<% end %>
