@@ -2,6 +2,9 @@
 
 # Save the id of user in session hash and set to nil on logout
 class SessionsController < ApplicationController
+  protect_from_forgery with: :reset_session
+  skip_before_action :require_login
+
   def create
     user = User.find_by(username: params[:username])
     if user&.authenticate(params[:password])

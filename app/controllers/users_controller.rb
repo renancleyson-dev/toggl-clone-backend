@@ -3,6 +3,7 @@
 # CRUD operations on user model controller.
 class UsersController < ApplicationController
   protect_from_forgery with: :reset_session
+  skip_before_action :require_login, except: %i[show edit]
 
   def new
     @user = User.new
