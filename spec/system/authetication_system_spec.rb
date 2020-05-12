@@ -17,7 +17,7 @@ RSpec.describe 'AutheticationSystem', type: :system do
       wrong_email_format: 'Email requires a valid email format',
       wrong_full_name_format: 'Full name requires to have just letters',
       passwords_has_no_match: "Password confirmation doesn't match Password",
-      created: 'User has been successfully created',
+      created: 'User has been successfully created'
     }
 
     @created_user = create :user,

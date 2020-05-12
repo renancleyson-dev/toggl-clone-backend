@@ -17,7 +17,7 @@ RSpec.describe 'Users Requests', type: :request do
 
   context 'when use POST verb on users path' do
     it 'creates a regular user' do
-      USER_DATA = {
+      CREATE_USER_DATA = {
         username: 'renan',
         full_name: 'Renan',
         email: 'renan@email.com',
@@ -25,9 +25,9 @@ RSpec.describe 'Users Requests', type: :request do
         password_confirmation: 'p1'
       }.freeze
 
-      post '/users', params: { user: USER_DATA }
+      post '/users', params: { user: CREATE_USER_DATA }
       expect(response).to redirect_to('/login')
-      expect(User.exists?(username: USER_DATA[:username])).to be true
+      expect(User.exists?(username: CREATE_USER_DATA[:username])).to be true
     end
   end
 
@@ -47,6 +47,12 @@ RSpec.describe 'Users Requests', type: :request do
 
   context 'when use GET verb on users/:id path' do
     it 'gets a json of a regular user' do
+      LOGIN_USER_DATA = {
+        username: @created_user.username,
+        password: @created_user.password
+      }.freeze
+
+      post '/sessions', params: LOGIN_USER_DATA
       get "/users/#{@created_user.id}"
       expect(response.content_type).to eq('application/json')
       expect(response.body).to eq(@created_user.to_json)
