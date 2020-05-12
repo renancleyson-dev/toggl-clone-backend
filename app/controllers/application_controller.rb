@@ -2,7 +2,7 @@
 
 # Controller class with all methods and callbacks for every controller on app
 class ApplicationController < ActionController::Base
-  before_action :require_login, only: %i[show edit]
+  before_action :require_login
 
   private
 
@@ -11,5 +11,6 @@ class ApplicationController < ActionController::Base
     return if Session.find_by(token: session[:token])
 
     flash[:alert] = 'You must be logged in to access that page'
+    redirect_to '/login'
   end
 end
