@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       session[:token] = @session.token
       redirect_to '/app/dashboard'
     else
-      flash[:alert] = user.nil? ? "The username doesn't exist" : 'Wrong password!'
+      flash[:alert] = "Username or password don't match"
       redirect_to '/login'
     end
   end
