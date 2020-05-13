@@ -12,10 +12,15 @@ class Session < ApplicationRecord
       time = time.split.inject { |count, unit| count.to_i.send(unit) }
     end
 
-    query = "updated_at < '#{time.ago.to_s(:db)}' OR
-    created_at < '#{2.days.ago.to_s(:db)}'"
+    query = "updated_at < :time_ago OR
+    created_at < :two_days_ago"
 
-    where(query).delete_all
+    params = {
+      time_ago: time.ago.to_s(:db),
+      two_days_ago: 2.days.ago.to_s(:db)
+    }
+
+    where(query, params).delete_all
   end
 
   private
