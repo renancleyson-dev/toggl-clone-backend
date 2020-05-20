@@ -7,13 +7,9 @@ class Session < ApplicationRecord
 
   before_validation :set_token, on: :create
 
-  def self.sweep(time = 1.hour)
-    if time.is_a?(String)
-      time = time.split.inject { |count, unit| count.to_i.send(unit) }
-    end
-
-    query = "updated_at < :time_ago OR
-    created_at < :two_days_ago"
+  def self.sweep(time = '1 hour')
+    time = time.split.inject { |count, unit| count.to_i.send(unit) }
+    query = 'updated_at < :time_ago OR created_at < :two_days_ago'
 
     params = {
       time_ago: time.ago.to_s(:db),

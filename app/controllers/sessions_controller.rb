@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Save the id of user in session hash and set to nil on logout
+# Save a token on session hash and set to nil on logout
 class SessionsController < ApplicationController
   protect_from_forgery with: :reset_session
   skip_before_action :require_login, except: :destroy

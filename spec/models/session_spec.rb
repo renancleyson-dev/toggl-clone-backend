@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Session, type: :model do
+RSpec.describe 'Session Model', type: :model do
   let(:stub_session) do
     user = build_stubbed :user,
                          username: 'alan',

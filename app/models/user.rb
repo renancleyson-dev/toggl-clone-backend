@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'bcrypt'
-
 # Basic User model to authetication
 class User < ActiveRecord::Base
   validates :username, uniqueness: true, presence: true
