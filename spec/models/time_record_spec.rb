@@ -7,7 +7,7 @@ RSpec.describe 'TimeRecord Model', type: :model do
     @messages = {
       missing: "can't be blank",
       missing_user: 'must exist',
-      conflict: 'a time conflict occurred'
+      conflict: 'have a time conflict with other records'
     }
 
     created_user = create :user,
@@ -33,6 +33,11 @@ RSpec.describe 'TimeRecord Model', type: :model do
                   user: stub_user
   end
 
+  after(:all) do
+    User.destroy_all
+    TimeRecord.destroy_all
+  end
+
   context 'when creating a time record' do
     it 'validates the presence of a start and end time' do
       stubbed_time_record.start_time = nil
@@ -54,7 +59,7 @@ RSpec.describe 'TimeRecord Model', type: :model do
   end
 
   example_group 'validation of time conflicts' do
-    example 'between an interval and a shorter one' do
+    example 'between an interval and other inside it' do
       stubbed_time_record.start_time = 1.hour.ago
       stubbed_time_record.end_time = 1.hour.after
       stubbed_time_record.valid?
@@ -62,7 +67,7 @@ RSpec.describe 'TimeRecord Model', type: :model do
       expect(error_message).to include(@messages[:conflict])
     end
 
-    example 'between an interval and a longer one' do
+    example 'between an interval that is inside of other interval' do
       stubbed_time_record.start_time = 30.minutes.after
       stubbed_time_record.end_time = 40.minutes.after
       stubbed_time_record.valid?
