@@ -29,7 +29,7 @@ RSpec.describe 'Session Model', type: :model do
 
     it 'token is read only' do
       expect { stub_session.token = 'a' }.to raise_error(NoMethodError)
-      expect { stub_session.token }.not_to raise_error(Exception)
+      expect { stub_session.token }.not_to raise_error
     end
   end
 end
