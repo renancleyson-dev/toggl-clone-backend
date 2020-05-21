@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   has_many :sessions
+  has_many :time_records
 
   def errors_by_field
     return nil if valid?
