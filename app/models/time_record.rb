@@ -14,23 +14,29 @@ class TimeRecord < ApplicationRecord
 
   private
 
-  def time_conflict?(variable)
+  def find_time_conflict(time_variable)
     TimeRecord.where(
-      'start_time < :time_variable AND end_time > :time_variable',
-      time_variable: variable
-    ).exists?
+      'start_time <= :time_variable AND end_time >= :time_variable',
+      time_variable: time_variable
+    )
   end
 
   def check_time_conflicts
     message = 'have a time conflict with other records'
-    return errors.add(:start_time, message) if time_conflict?(self[:start_time])
-    return errors.add(:end_time, message) if time_conflict?(self[:end_time])
+    record_owner_query = 'user_id = :user_id'
+    conflict_queries = ['start_time <= :start_time AND end_time >= :start_time',
+                        'start_time <= :end_time AND end_time >= :end_time',
+                        'start_time > :start_time AND end_time < :end_time']
 
-    inside_interval_conflict = TimeRecord.where(
-      'start_time > ? AND end_time < ?',
-      self[:start_time],
-      self[:end_time]
+    conflict_queries.map! { |query| "(#{query})" }
+
+    conflictant_time_record = TimeRecord.joins(:user).where(
+      "#{record_owner_query} AND #{conflict_queries.join(' OR ')}",
+      user_id: self[:user_id],
+      start_time: self[:start_time],
+      end_time: self[:end_time]
     )
-    return errors.add(:start_time, message) if inside_interval_conflict.exists?
+
+    return errors.add(:start_time, message) if conflictant_time_record.any?
   end
 end

@@ -9,6 +9,11 @@ RSpec.describe 'Session Model', type: :model do
                            full_name: 'Alan',
                            email: 'alan@gmail.com'
   end
+
+  after(:all) do
+    User.delete_all
+  end
+
   let(:stub_session) do
     build_stubbed :session, user: @created_user
   end
