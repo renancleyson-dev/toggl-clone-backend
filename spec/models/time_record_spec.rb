@@ -10,27 +10,22 @@ RSpec.describe 'TimeRecord Model', type: :model do
       conflict: 'have a time conflict with other records'
     }
 
-    created_user = create :user,
-                          username: 'jose',
-                          full_name: 'Jose',
-                          email: 'josep@gmail.com'
+    @created_user = create :user,
+                           username: 'jose',
+                           full_name: 'Jose',
+                           email: 'josep@gmail.com'
 
     @created_time_record = create :time_record,
                                   start_time: Time.current,
                                   end_time: 1.hour.after,
-                                  user: created_user
+                                  user: @created_user
   end
 
   let(:stubbed_time_record) do
-    stub_user = build_stubbed :user,
-                              username: 'alan',
-                              full_name: 'Alan',
-                              email: 'alan@gmail.com'
-
     build_stubbed :time_record,
                   start_time: 2.hours.after,
                   end_time: 3.hours.after,
-                  user: stub_user
+                  user: @created_user
   end
 
   after(:all) do
@@ -43,18 +38,18 @@ RSpec.describe 'TimeRecord Model', type: :model do
       stubbed_time_record.start_time = nil
       stubbed_time_record.end_time = nil
       stubbed_time_record.valid?
-      errors = {
+      @errors = {
         start_time: [@messages[:missing]],
         end_time: [@messages[:missing]]
       }
-      expect(stubbed_time_record.errors.messages).to include(errors)
+      expect(stubbed_time_record.errors.messages).to include(@errors)
     end
 
     it 'validates the presence of an user' do
       stubbed_time_record.user = nil
       stubbed_time_record.valid?
-      error_message = stubbed_time_record.errors.messages[:user]
-      expect(error_message).to include(@messages[:missing_user])
+      @error_message = stubbed_time_record.errors.messages[:user]
+      expect(@error_message).to include(@messages[:missing_user])
     end
   end
 
@@ -63,32 +58,32 @@ RSpec.describe 'TimeRecord Model', type: :model do
       stubbed_time_record.start_time = 1.hour.ago
       stubbed_time_record.end_time = 1.hour.after
       stubbed_time_record.valid?
-      error_message = stubbed_time_record.errors.messages[:start_time]
-      expect(error_message).to include(@messages[:conflict])
+      @error_message = stubbed_time_record.errors.messages[:start_time]
+      expect(@error_message).to include(@messages[:conflict])
     end
 
-    example 'between an interval that is inside of other interval' do
+    example 'between an interval that is inside of another interval' do
       stubbed_time_record.start_time = 30.minutes.after
       stubbed_time_record.end_time = 40.minutes.after
       stubbed_time_record.valid?
-      error_message = stubbed_time_record.errors.messages[:start_time]
-      expect(error_message).to include(@messages[:conflict])
+      @error_message = stubbed_time_record.errors.messages[:start_time]
+      expect(@error_message).to include(@messages[:conflict])
     end
 
     example 'on a start time that conflicts with some interval' do
       stubbed_time_record.start_time = 10.minutes.after
       stubbed_time_record.end_time = 2.hours.after
       stubbed_time_record.valid?
-      error_message = stubbed_time_record.errors.messages[:start_time]
-      expect(error_message).to include(@messages[:conflict])
+      @error_message = stubbed_time_record.errors.messages[:start_time]
+      expect(@error_message).to include(@messages[:conflict])
     end
 
     example 'on an end time that conflicts with some interval' do
       stubbed_time_record.start_time = 10.minutes.ago
       stubbed_time_record.end_time = 10.minutes.after
       stubbed_time_record.valid?
-      error_message = stubbed_time_record.errors.messages[:end_time]
-      expect(error_message).to include(@messages[:conflict])
+      @error_message = stubbed_time_record.errors.messages[:start_time]
+      expect(@error_message).to include(@messages[:conflict])
     end
   end
 end
