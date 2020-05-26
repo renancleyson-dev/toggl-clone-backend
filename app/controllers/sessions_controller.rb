@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Save a token on session hash and set to nil on logout
+# save a token on session hash and set to nil on logout
 class SessionsController < ApplicationController
   protect_from_forgery with: :reset_session
-  skip_before_action :require_login, except: :destroy
+  skip_before_action :request_login_and_set_user, only: :create
 
   def create
     user = User.find_by(username: params[:username])

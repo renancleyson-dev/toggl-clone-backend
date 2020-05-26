@@ -3,7 +3,7 @@
 # CRUD operations on user model controller.
 class UsersController < ApplicationController
   protect_from_forgery with: :reset_session
-  skip_before_action :require_login, except: %i[show edit]
+  skip_before_action :request_login_and_set_user, only: %i[new create login]
 
   def new
     @user = User.new
@@ -21,18 +21,17 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     render json: @user
   end
 
   def edit; end
 
   def update
-    User.find(params[:id]).update(user_params)
+    @user.update(user_params)
   end
 
   def destroy
-    User.delete(params[:id])
+    @user.destroy
   end
 
   def login
