@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   private
 
   def request_login_and_set_user
-    Session.sweep('20 minutes')
+    Session.sweep
     stored_session = Session.where(token: session[:token]).last
 
     if stored_session.present?
