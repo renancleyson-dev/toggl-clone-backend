@@ -26,15 +26,9 @@ RSpec.describe 'TimeRecords API', type: :request do
   end
 
   context 'when call a GET verb' do
-    it "responses with the user's week time records as json" do
-      @off_week_record = create :time_record,
-                               start_time: 10.days.ago,
-                               end_time: 9.days.ago,
-                               user: @created_user
-
+    it "responses with the user's time records as json" do
       get "/users/#{@created_user.id}/time_records"
       expect(response[:data]).to include(@created_time_record.to_json)
-      expect(response[:data]).not_to include(@off_week_record.to_json)
     end
   end
 
@@ -64,6 +58,19 @@ RSpec.describe 'TimeRecords API', type: :request do
       expect(@updated_record.start_time.to_s)
         .to eq(@update_hash[:start_time].to_s)
       expect(@updated_record.end_time.to_s).to eq(@update_hash[:end_time].to_s)
+    end
+  end
+
+  context 'when call a GET verb on .../:days' do
+    it 'responses with all records of days ago' do
+      @out_of_limit_record = create :time_record,
+                                    start_time: 10.days.ago,
+                                    end_time: 9.days.ago,
+                                    user: @created_user
+
+      get "/users/#{@created_user.id}/time_records/8"
+      expect(response[:data]).to include(@created_time_record.to_json)
+      expect(response[:data]).not_to include(@out_of_limit_record.to_json)
     end
   end
 end
