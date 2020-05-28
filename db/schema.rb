@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_20_190047) do
+ActiveRecord::Schema.define(version: 2020_05_27_190507) do
 
   create_table "sessions", force: :cascade do |t|
     t.string "token"
@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 2020_05_20_190047) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "label"
+    t.string "tag"
     t.index ["user_id"], name: "index_time_records_on_user_id"
   end
 
