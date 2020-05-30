@@ -7,13 +7,14 @@ class Session < ApplicationRecord
 
   before_validation :set_token, on: :create
 
+  attribute :token, :string
+
   def self.sweep(time = 1.hour)
-    if time.is_a?(String)
-      time = time.split.inject { |count, unit| count.to_i.send(unit) }
+    time.is_a?(String) && time = time.split.inject do |count, unit|
+      count.to_i.send(unit)
     end
 
     unused_sessions = 'updated_at < :time_ago OR created_at < :two_days_ago'
-
     params = {
       time_ago: time.ago.to_s(:db),
       two_days_ago: 2.days.ago.to_s(:db)

@@ -17,6 +17,11 @@ class User < ActiveRecord::Base
   has_many :sessions
   has_many :time_records
 
+  attribute :username, :string
+  attribute :full_name, :string
+  attribute :email, :string
+  attribute :password_digest, :string
+
   def errors_by_field
     return nil if valid?
 
