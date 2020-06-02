@@ -28,7 +28,13 @@ RSpec.describe 'TimeRecords API', type: :request do
   context 'when call a GET verb' do
     it "responses with the user's time records as json" do
       get "/users/#{@created_user.id}/time_records"
-      expect(response[:data]).to include(@created_time_record.to_json)
+
+      created_record_result = {
+        start_time: @created_time_record.start_time,
+        end_time: @created_time_record.end_time
+      }
+      deserialized_data = JSON.parse(response.body)['data']
+      expect(deserialized_data).to include(created_record_result.as_json)
     end
   end
 
@@ -68,9 +74,19 @@ RSpec.describe 'TimeRecords API', type: :request do
                                     end_time: 9.days.ago,
                                     user: @created_user
 
+      created_record_result = {
+        start_time: @created_time_record.start_time,
+        end_time: @created_time_record.end_time
+      }
+      out_of_limit_record_result = {
+        start_time: @out_of_limit_record.start_time,
+        end_time: @out_of_limit_record.end_time
+      }
+
       get "/users/#{@created_user.id}/time_records/8"
-      expect(response[:data]).to include(@created_time_record.to_json)
-      expect(response[:data]).not_to include(@out_of_limit_record.to_json)
+      deserialized_data = JSON.parse(response.body)['data']
+      expect(deserialized_data).to include(created_record_result.as_json)
+      expect(deserialized_data).not_to include(out_of_limit_record_result.as_json)
     end
   end
 end
