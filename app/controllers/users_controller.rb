@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:notice] = 'User has been successfully created'
-      redirect_to '/login'
+      redirect_to '/'
     else
       @user.errors_by_field.each { |field, msg| flash[field] = msg }
       redirect_to '/sign_up'
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
   def login
     if session[:token]
       flash[:alert] = 'You are already logged in!'
-      redirect_to '/app/dashboard'
+      redirect_to ENV['FRONTEND_ADDRESS']
     else
       render :login
     end

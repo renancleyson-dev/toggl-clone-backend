@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
       @user = stored_session.user
     else
       flash[:alert] = 'You must be logged in to access that page'
-      redirect_to '/login'
+      redirect_to '/'
     end
   end
 end

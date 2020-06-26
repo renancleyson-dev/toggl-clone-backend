@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get '/login', to: 'users#login'
+  root 'users#login'
 
   get '/sign_up', to: 'users#new'
   get '/users/:id', to: 'users#show', defaults: { format: 'json' }

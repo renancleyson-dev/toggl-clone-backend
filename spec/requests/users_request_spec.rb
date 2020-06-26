@@ -29,7 +29,7 @@ RSpec.describe 'Users Requests', type: :request do
           password_confirmation: 'p1'
         }
       }
-      expect(response).to redirect_to('/login')
+      expect(response).to redirect_to('/')
       expect(User.exists?(username: @username)).to be true
     end
   end

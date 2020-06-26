@@ -13,7 +13,7 @@ RSpec.describe 'Sessions Requests', type: :request do
       @stored_session = Session.find_by(user: @user)
 
       expect(session[:token]).to eq(@stored_session.token)
-      expect(response).to redirect_to('/app/dashboard')
+      expect(response).to redirect_to(ENV['FRONTEND_ADDRESS'])
     end
   end
 

@@ -100,7 +100,7 @@ RSpec.describe 'AutheticationSystem', type: :system do
 
   context 'when autheticating' do
     it 'alerts if username is wrong' do
-      visit '/login'
+      visit '/'
       fill_in 'username', with: 'wrongusername'
       fill_in 'password', with: 'wrongpassword'
       click_button('commit')

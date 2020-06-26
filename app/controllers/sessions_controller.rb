@@ -10,15 +10,15 @@ class SessionsController < ApplicationController
     if user&.authenticate(params[:password])
       @session = Session.create(user: user)
       session[:token] = @session.token
-      redirect_to '/app/dashboard'
+      redirect_to ENV['FRONTEND_ADDRESS']
     else
       flash[:alert] = "Username or password don't match"
-      redirect_to '/login'
+      redirect_to '/'
     end
   end
 
   def destroy
     Session.destroy(params[:id])
-    redirect_to '/login'
+    redirect_to '/'
   end
 end
