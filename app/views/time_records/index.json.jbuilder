@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.data @time_records do |time_record|
+json.array! @time_records do |time_record|
   json.start_time time_record.start_time
   json.end_time time_record.end_time
   json.tag time_record.tag unless time_record.tag.nil?

@@ -33,7 +33,7 @@ RSpec.describe 'TimeRecords API', type: :request do
         start_time: @created_time_record.start_time,
         end_time: @created_time_record.end_time
       }
-      deserialized_data = JSON.parse(response.body)['data']
+      deserialized_data = JSON.parse(response.body)
       expect(deserialized_data).to include(created_record_result.as_json)
     end
   end
@@ -84,7 +84,7 @@ RSpec.describe 'TimeRecords API', type: :request do
       }
 
       get "/users/#{@created_user.id}/time_records/8"
-      deserialized_data = JSON.parse(response.body)['data']
+      deserialized_data = JSON.parse(response.body)
       expect(deserialized_data).to include(created_record_result.as_json)
       expect(deserialized_data).not_to include(out_of_limit_record_result.as_json)
     end

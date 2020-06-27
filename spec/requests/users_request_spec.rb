@@ -54,7 +54,6 @@ RSpec.describe 'Users Requests', type: :request do
     it 'gets a json of a regular user' do
       sign_in(@created_user)
       get "/users/#{@created_user.id}"
-      expect(response.content_type).to eq('application/json')
       expect(response.body).to eq(@created_user.to_json)
     end
   end

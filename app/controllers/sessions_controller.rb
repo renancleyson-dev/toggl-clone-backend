@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
     if user&.authenticate(params[:password])
       @session = Session.create(user: user)
       session[:token] = @session.token
+      cookies[:user_id] = user.id
       redirect_to ENV['FRONTEND_ADDRESS']
     else
       flash[:alert] = "Username or password don't match"
