@@ -2,8 +2,15 @@
 
 # CRUD operations to the main source of data of the app
 class TimeRecordsController < ApplicationController
+  # should skip just in development because the frontend doesn't is integrated with the backend
+  skip_forgery_protection
+
   def index
-    @time_records = @user.time_records
+    @time_records = @user
+                    .time_records
+                    .order(created_at: :desc)
+                    .page(params[:page])
+                    .per(params[:per_page])
   end
 
   def create
@@ -22,17 +29,9 @@ class TimeRecordsController < ApplicationController
     TimeRecord.delete(params[:id]) if params[:user_id] == @user.id
   end
 
-  def show_days
-    @time_records = @user.time_records.select do |record|
-      record.end_time >= params[:days].to_i.days.ago
-    end
-
-    render :index
-  end
-
   private
 
   def time_record_params
-    params.require(:time_record).permit(:start_time, :end_time)
+    params.require(:time_record).permit(:start_time, :end_time, :category, :label)
   end
 end
