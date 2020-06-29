@@ -85,5 +85,10 @@ RSpec.describe 'TimeRecord Model', type: :model do
       @error_message = stubbed_time_record.errors.messages[:start_time]
       expect(@error_message).to include(@messages[:conflict])
     end
+
+    example 'between a time record and his update' do
+      update_valid = @created_time_record.update(start_time: 1.minute.after)
+      expect(update_valid).to be true
+    end
   end
 end

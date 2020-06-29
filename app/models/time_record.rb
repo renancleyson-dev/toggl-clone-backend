@@ -20,6 +20,8 @@ class TimeRecord < ApplicationRecord
   private
 
   def check_time_conflicts
+    return if user.nil?
+
     message = 'have a time conflict with other records'
     record_owner_query = 'user_id = :user_id'
 
@@ -28,12 +30,18 @@ class TimeRecord < ApplicationRecord
                         'start_time > :start_time AND end_time < :end_time']
 
     conflict_queries.map! { |query| "(#{query})" }
-    conflictant_time_record = TimeRecord.joins(:user).where(
+    conflictant_time_record = user.time_records.where(
       "#{record_owner_query} AND #{conflict_queries.join(' OR ')}",
-      user_id: self[:user_id],
-      start_time: self[:start_time],
-      end_time: self[:end_time]
+      user_id: user_id,
+      start_time: start_time,
+      end_time: end_time
     )
+
+    unless id.nil?
+      conflictant_time_record = conflictant_time_record.filter do |time_record|
+        time_record.id != id
+      end
+    end
 
     return errors.add(:start_time, message) if conflictant_time_record.any?
   end
