@@ -5,8 +5,6 @@ require 'rails_helper'
 RSpec.describe 'User Model', type: :model do
   before(:all) do
     @messages = {
-      missing: "can't be blank",
-      taken: 'has already been taken',
       format_email: 'requires a valid email format',
       format_full_name: 'requires to have just letters'
     }

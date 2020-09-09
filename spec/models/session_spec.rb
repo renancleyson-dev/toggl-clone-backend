@@ -19,13 +19,6 @@ RSpec.describe 'Session Model', type: :model do
   end
 
   context 'when creating a session' do
-    before(:all) do
-      @messages = {
-        missing: "can't be blank",
-        missing_user: 'must exist'
-      }
-    end
-
     it 'token is read only' do
       expect { stub_session.token = 'a' }.to raise_error(NoMethodError)
       expect { stub_session.token }.not_to raise_error
