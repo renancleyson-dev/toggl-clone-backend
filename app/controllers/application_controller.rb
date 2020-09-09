@@ -2,6 +2,7 @@
 
 # controller class with all methods and callbacks for every controller on app
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :reset_session
   before_action :request_login_and_set_user
 
   private

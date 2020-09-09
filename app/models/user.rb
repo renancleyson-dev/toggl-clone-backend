@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 # basic User model to authetication
-class User < ActiveRecord::Base
+class User < ApplicationRecord
+  attribute :username, :string
+  attribute :full_name, :string
+  attribute :email, :string
+  attribute :password_digest, :string
+
   validates :username, uniqueness: true, presence: true
   validates :full_name, presence: true, format: {
     with: /[a-zA-Z]+\z/,
@@ -16,11 +21,6 @@ class User < ActiveRecord::Base
 
   has_many :sessions
   has_many :time_records
-
-  attribute :username, :string
-  attribute :full_name, :string
-  attribute :email, :string
-  attribute :password_digest, :string
 
   def errors_by_field
     return nil if valid?

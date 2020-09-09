@@ -2,12 +2,12 @@
 
 # session model to authetication
 class Session < ApplicationRecord
+  attribute :token
   validates :token, presence: true, uniqueness: true
+
   belongs_to :user
 
   before_validation :set_token, on: :create
-
-  attribute :token, :string
 
   def self.sweep(time = 1.hour)
     time.is_a?(String) && time = time.split.inject do |count, unit|

@@ -2,7 +2,6 @@
 
 # CRUD operations on user model controller.
 class UsersController < ApplicationController
-  protect_from_forgery with: :reset_session
   skip_before_action :request_login_and_set_user, only: %i[new create login]
 
   def new
