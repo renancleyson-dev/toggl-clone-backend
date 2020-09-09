@@ -5,8 +5,6 @@ require 'rails_helper'
 RSpec.describe 'TimeRecord Model', type: :model do
   before(:all) do
     @messages = {
-      missing: "can't be blank",
-      missing_user: 'must exist',
       conflict: 'have a time conflict with other records'
     }
 
@@ -31,26 +29,6 @@ RSpec.describe 'TimeRecord Model', type: :model do
   after(:all) do
     User.destroy_all
     TimeRecord.destroy_all
-  end
-
-  context 'when creating a time record' do
-    it 'validates the presence of a start and end time' do
-      stubbed_time_record.start_time = nil
-      stubbed_time_record.end_time = nil
-      stubbed_time_record.valid?
-      @errors = {
-        start_time: [@messages[:missing]],
-        end_time: [@messages[:missing]]
-      }
-      expect(stubbed_time_record.errors.messages).to include(@errors)
-    end
-
-    it 'validates the presence of an user' do
-      stubbed_time_record.user = nil
-      stubbed_time_record.valid?
-      @error_message = stubbed_time_record.errors.messages[:user]
-      expect(@error_message).to include(@messages[:missing_user])
-    end
   end
 
   example_group 'validation of time conflicts' do
