@@ -38,13 +38,4 @@ RSpec.describe 'User Model', type: :model do
       expect(@email_error).to include(@messages[:format_email])
     end
   end
-
-  describe 'errors check with #errors_by_field' do
-    specify 'show one error message per field' do
-      stub_user.email = ''
-      stub_user.valid?
-      expect(stub_user.errors.messages[:email].length).to be > 1
-      expect(stub_user.errors_by_field[:email]).to eq("Email can't be blank")
-    end
-  end
 end

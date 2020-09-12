@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Sessions Requests', type: :request do
   context 'when logged in' do
-    it 'gives token to session hash and redirects to app' do
+    it 'creates a session and gives jwt token in response body' do
       @user = create :user, username: 'Renan Cleyson', password: '123456'
       post '/sessions', params: {
         username: @user.username,
@@ -12,8 +12,7 @@ RSpec.describe 'Sessions Requests', type: :request do
       }
       @stored_session = Session.find_by(user: @user)
 
-      expect(session[:token]).to eq(@stored_session.token)
-      expect(response).to redirect_to(ENV['FRONTEND_ADDRESS'])
+      expect(@stored_session.token).to eq(response.body.token)
     end
   end
 
