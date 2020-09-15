@@ -10,14 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_27_174600) do
-
-  create_table "sessions", force: :cascade do |t|
-    t.string "token"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id"
-  end
+ActiveRecord::Schema.define(version: 2020_09_15_174517) do
 
   create_table "time_records", force: :cascade do |t|
     t.datetime "start_time"
