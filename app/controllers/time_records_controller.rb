@@ -10,8 +10,12 @@ class TimeRecordsController < ApplicationController
   end
 
   def create
-    time_record = TimeRecord.new(time_record_params)
-    time_record.save!
+    @time_record = TimeRecord.new(time_record_params)
+    if @time_record.save
+      render :show, status: :created
+    else
+      render json: @time_record.errors.messages, status: :unprocessable_entity
+    end
   end
 
   def update
