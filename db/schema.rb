@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_15_174517) do
+ActiveRecord::Schema.define(version: 2020_09_15_190255) do
 
   create_table "time_records", force: :cascade do |t|
     t.datetime "start_time"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2020_09_15_174517) do
     t.string "username"
     t.string "password_digest"
     t.string "full_name"
+    t.string "authentication_token"
   end
 
 end
