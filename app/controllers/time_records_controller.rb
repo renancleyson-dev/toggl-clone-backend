@@ -2,36 +2,41 @@
 
 # CRUD operations to the main source of data of the app
 class TimeRecordsController < ApplicationController
-  # should skip just in development because the frontend doesn't is integrated with the backend
-  skip_forgery_protection
-
   def index
-    @time_records = @user
-                    .time_records
-                    .order(created_at: :desc)
-                    .page(params[:page])
-                    .per(params[:per_page])
+    @time_records = @user.time_records
+                         .order(created_at: :desc)
+                         .page(params[:page])
+                         .per(params[:per_page])
   end
 
   def create
     time_record = TimeRecord.new(time_record_params)
-    time_record.user_id = @user.id
     time_record.save!
   end
 
   def update
-    return if params[:user_id].to_i != @user.id
-
-    TimeRecord.find(params[:id]).update(time_record_params)
+    if !belongs_to_current_user?
+      TimeRecord.find(params[:id] || params[:time_record_id]).update(time_record_params)
+    else
+      head :unauthorized
+    end
   end
 
   def destroy
-    TimeRecord.delete(params[:id]) if params[:user_id] == @user.id
+    if !belongs_to_current_user?
+      TimeRecord.delete(params[:id] || params[:time_record_id])
+    else
+      head :unauthorized
+    end
   end
 
   private
 
   def time_record_params
-    params.require(:time_record).permit(:start_time, :end_time, :category, :label)
+    params.require(:time_record).permit(:user_id, :start_time, :end_time, :category, :label)
+  end
+
+  def belongs_to_current_user?
+    params[:user_id] == @user.id
   end
 end
