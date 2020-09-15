@@ -2,9 +2,11 @@
 
 module AuthenticationHelper
   def sign_in(user)
-    post '/sessions', params: {
+    post '/login', params: {
       username: user.username,
       password: user.password
     }
+
+    JSON.parse(response.body)['auth_token']
   end
 end

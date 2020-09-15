@@ -11,6 +11,8 @@ RSpec.describe 'Users Requests', type: :request do
                            full_name: 'User',
                            email: 'some@email.com',
                            password: 'p1'
+
+    @auth_token = sign_in(@created_user)
   end
 
   after(:all) do
@@ -29,16 +31,18 @@ RSpec.describe 'Users Requests', type: :request do
           password_confirmation: 'p1'
         }
       }
+
+      expect(response).to have_http_status(:created)
       expect(User.exists?(username: @username)).to be true
     end
   end
 
   context 'when use PUT verb on /users/:id' do
     it 'updates a regular user' do
-      sign_in(@created_user)
-
       @update_hash = { full_name: 'Guy', email: 'e@gmail.com', password: 'p2' }
-      put "/users/#{@created_user.id}", params: { user: @update_hash }
+      put "/users/#{@created_user.id}", params: { user: @update_hash }, headers: {
+        'Authorization' => "Bearer #{@auth_token}"
+      }
 
       @autheticated_user = User.find(@created_user.id)
                                .authenticate(@update_hash[:password])
@@ -51,9 +55,15 @@ RSpec.describe 'Users Requests', type: :request do
 
   context 'when use GET verb on /users/:id' do
     it 'gets a json of a regular user' do
-      sign_in(@created_user)
-      get "/users/#{@created_user.id}"
-      expect(response.body).to eq(@created_user.to_json)
+      get "/users/#{@created_user.id}", headers: {
+        'Authorization' => "Bearer #{@auth_token}"
+      }
+
+      show_user = {
+        full_name: @created_user.full_name,
+        email: @created_user.email
+      }
+      expect(response.body).to eq(show_user.to_json)
     end
   end
 end
