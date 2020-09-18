@@ -4,7 +4,7 @@
 class ApplicationController < ActionController::API
   before_action :login_required
 
-  private
+  protected
 
   def current_user
     auth_header = request.headers['Authorization']
