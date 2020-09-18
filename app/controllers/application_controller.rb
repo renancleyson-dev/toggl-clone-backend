@@ -6,16 +6,18 @@ class ApplicationController < ActionController::API
 
   private
 
-  def auth_token
+  def current_user
     auth_header = request.headers['Authorization']
-    auth_header.split(' ')[1]
+
+    return nil unless auth_header
+
+    auth_token = auth_header.split(' ')[1]
+    user_id = JsonWebToken.decode(auth_token)['user_id']
+    User.find(user_id)
   end
 
   def login_required
-    user_id = JsonWebToken.decode(auth_token)['user_id']
-    @user = User.find(user_id)
-
-    return if @user.present?
+    return if current_user
 
     render json: { message: 'You must be logged in to access that page' },
            status: :unauthorized

@@ -3,7 +3,7 @@
 # CRUD operations to the main source of data of the app
 class TimeRecordsController < ApplicationController
   def index
-    @time_records = @user.time_records
+    @time_records = current_user.time_records
                          .order(created_at: :desc)
                          .page(params[:page])
                          .per(params[:per_page])
@@ -41,6 +41,6 @@ class TimeRecordsController < ApplicationController
   end
 
   def belongs_to_current_user?
-    params[:user_id] == @user.id
+    params[:user_id] == current_user.id
   end
 end

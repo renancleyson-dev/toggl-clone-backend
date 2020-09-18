@@ -13,14 +13,16 @@ class UsersController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @user = current_user
+  end
 
   def update
-    @user.update(user_params)
+    current_user.update(user_params)
   end
 
   def destroy
-    @user.destroy
+    current_user.destroy
   end
 
   def login
