@@ -7,6 +7,6 @@ module AuthenticationHelper
       password: user.password
     }
 
-    JSON.parse(response.body)['auth_token']
+    JSON.parse(response.body)['authToken']
   end
 end

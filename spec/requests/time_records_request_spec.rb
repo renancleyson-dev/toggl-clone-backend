@@ -32,9 +32,9 @@ RSpec.describe 'TimeRecords API', type: :request do
       }
 
       @created_record_result = {
-        start_time: @created_time_record.start_time,
-        end_time: @created_time_record.end_time,
-        id: @created_time_record.id
+        'startTime' => @created_time_record.start_time,
+        'endTime' => @created_time_record.end_time,
+        'id' => @created_time_record.id
       }
       @deserialized_data = JSON.parse(response.body)
       expect(@deserialized_data).to include(@created_record_result.as_json)

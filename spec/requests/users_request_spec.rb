@@ -60,10 +60,11 @@ RSpec.describe 'Users Requests', type: :request do
       }
 
       show_user = {
-        full_name: @created_user.full_name,
-        email: @created_user.email
+        'fullName' => @created_user.full_name,
+        'email' => @created_user.email,
+        'id' => @created_user.id
       }
-      expect(response.body).to eq(show_user.to_json)
+      expect(JSON.parse(response.body)).to eq(show_user)
     end
   end
 end
