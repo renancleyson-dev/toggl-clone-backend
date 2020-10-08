@@ -15,7 +15,7 @@ class ApplicationController < ActionController::API
     decoded_jwt = JsonWebToken.decode(auth_token)
 
     if !decoded_jwt
-      render json: { message: 'You must be logged in to access that page' },
+      render json: { message: 'Your session expired' },
              status: :unauthorized
     else
       User.find(decoded_jwt['user_id'])
