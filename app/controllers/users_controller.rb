@@ -29,7 +29,6 @@ class UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
     if @user&.authenticate(params[:password])
       @token = JsonWebToken.encode({ user_id: @user.id })
-      @user.update(authentication_token: @token)
       render :login
     else
       render json: { message: "Username or password don't match" },
