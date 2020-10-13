@@ -3,7 +3,7 @@
 module AuthenticationHelper
   def sign_in(user)
     post '/login', params: {
-      username: user.username,
+      email: user.email,
       password: user.password
     }
 
