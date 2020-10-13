@@ -27,7 +27,7 @@ RSpec.describe 'TimeRecords API', type: :request do
 
   context 'when call a GET verb' do
     it "responses with the user's time records as json" do
-      get "/users/#{@created_user.id}/time_records", headers: {
+      get '/time_records', headers: {
         'Authorization' => "Bearer #{@auth_token}"
       }
 
@@ -46,7 +46,7 @@ RSpec.describe 'TimeRecords API', type: :request do
       @start_time = Time.current
       @end_time = 1.hour.after
 
-      post "/users/#{@created_user.id}/time_records", headers: {
+      post '/time_records', headers: {
         'Authorization' => "Bearer #{@auth_token}"
       }, params: {
         time_record: {
@@ -64,7 +64,7 @@ RSpec.describe 'TimeRecords API', type: :request do
   context 'when call a PUT verb on .../:time_record_id' do
     it 'updates the start_time or end_time' do
       @update_hash = { start_time: 30.minutes.after, end_time: 1.hour.after }
-      put "/users/#{@created_user.id}/time_records/#{@created_time_record.id}",
+      put "/time_records/#{@created_time_record.id}",
           params: { time_record: @update_hash },
           headers: { 'Authorization' => "Bearer #{@auth_token}" }
 
