@@ -4,9 +4,9 @@
 class TimeRecordsController < ApplicationController
   def index
     @time_records = current_user.time_records
-                         .order(created_at: :desc)
-                         .page(params[:page])
-                         .per(params[:per_page])
+                                .order(created_at: :desc)
+                                .page(params[:page])
+                                .per(params[:per_page])
   end
 
   def create
