@@ -13,6 +13,12 @@ class TimeRecord < ApplicationRecord
 
   belongs_to :user
 
+  def self.group_by_date(time_records)
+    time_records.group_by do |time_record|
+      time_record.start_time.strftime('%a, %e %b')
+    end
+  end
+
   def interval
     end_time - start_time
   end

@@ -3,10 +3,12 @@
 # CRUD operations to the main source of data of the app
 class TimeRecordsController < ApplicationController
   def index
-    @time_records = current_user.time_records
-                                .order(created_at: :desc)
-                                .page(params[:page])
-                                .per(params[:per_page])
+    time_records = current_user.time_records
+                               .order(start_time: :desc)
+                               .page(params[:page])
+                               .per(params[:per_page])
+
+    @time_records_grouped = TimeRecord.group_by_date(time_records)
   end
 
   def create
