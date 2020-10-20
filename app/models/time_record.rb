@@ -15,7 +15,15 @@ class TimeRecord < ApplicationRecord
 
   def self.group_by_date(time_records)
     time_records.group_by do |time_record|
-      time_record.start_time.strftime('%a, %e %b')
+      start_time = time_record.start_time
+
+      if start_time.to_date == Date.current
+        'Today'
+      elsif start_time.to_date == Date.yesterday
+        'Yesterday'
+      else
+        start_time.strftime('%a, %e %b')
+      end
     end
   end
 
