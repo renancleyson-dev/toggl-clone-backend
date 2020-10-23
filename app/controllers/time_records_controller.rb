@@ -39,6 +39,7 @@ class TimeRecordsController < ApplicationController
   private
 
   def time_record_params
-    params.require(:time_record).permit(:user_id, :start_time, :end_time, :category, :label)
+    params.require(:time_record).permit(:user_id, :project_id, :start_time,
+                                        :end_time, :category, :label)
   end
 end
