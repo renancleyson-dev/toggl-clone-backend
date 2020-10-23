@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :projects
   defaults format: :json do
     post 'login', to: 'users#login'
     resources :users, except: [:index]
