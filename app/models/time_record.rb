@@ -5,13 +5,13 @@ class TimeRecord < ApplicationRecord
   attribute :start_time, :datetime
   attribute :end_time, :datetime
   attribute :label, :string
-  attribute :tag, :string
 
   validates :start_time, presence: true
   validates :end_time, presence: true
   validate :check_time_conflicts
 
   belongs_to :user
+  has_and_belongs_to_many :tags
 
   def self.group_by_date(time_records)
     time_records.group_by do |time_record|
