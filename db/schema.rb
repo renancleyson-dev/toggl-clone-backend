@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_23_162616) do
+ActiveRecord::Schema.define(version: 2020_10_23_165245) do
 
   create_table "projects", force: :cascade do |t|
     t.string "name"
@@ -36,6 +36,13 @@ ActiveRecord::Schema.define(version: 2020_10_23_162616) do
     t.index ["user_id"], name: "index_tags_on_user_id"
   end
 
+  create_table "tags_time_records", force: :cascade do |t|
+    t.integer "time_record_id"
+    t.integer "tag_id"
+    t.index ["tag_id"], name: "index_tags_time_records_on_tag_id"
+    t.index ["time_record_id"], name: "index_tags_time_records_on_time_record_id"
+  end
+
   create_table "time_records", force: :cascade do |t|
     t.datetime "start_time"
     t.datetime "end_time"
@@ -46,13 +53,6 @@ ActiveRecord::Schema.define(version: 2020_10_23_162616) do
     t.integer "project_id"
     t.index ["project_id"], name: "index_time_records_on_project_id"
     t.index ["user_id"], name: "index_time_records_on_user_id"
-  end
-
-  create_table "time_records_tags", force: :cascade do |t|
-    t.integer "time_record_id"
-    t.integer "tag_id"
-    t.index ["tag_id"], name: "index_time_records_tags_on_tag_id"
-    t.index ["time_record_id"], name: "index_time_records_tags_on_time_record_id"
   end
 
   create_table "users", force: :cascade do |t|
