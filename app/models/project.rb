@@ -5,6 +5,6 @@ class Project < ApplicationRecord
   attribute :name
   attribute :color
 
-  has_one :user
+  belongs_to :user
   has_many :time_records
 end
