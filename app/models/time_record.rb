@@ -11,6 +11,7 @@ class TimeRecord < ApplicationRecord
   validate :check_time_conflicts
 
   belongs_to :user
+  belongs_to :project, optional: true
   has_and_belongs_to_many :tags
 
   def self.group_by_date(time_records)
