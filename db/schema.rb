@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_135320) do
+ActiveRecord::Schema.define(version: 2020_10_23_132855) do
+
+  create_table "projects", force: :cascade do |t|
+    t.string "name"
+    t.string "color"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_projects_on_user_id"
+  end
 
   create_table "sessions", force: :cascade do |t|
     t.string "token"
@@ -27,6 +36,8 @@ ActiveRecord::Schema.define(version: 2020_10_13_135320) do
     t.datetime "updated_at", null: false
     t.string "label"
     t.string "tag"
+    t.integer "project_id"
+    t.index ["project_id"], name: "index_time_records_on_project_id"
     t.index ["user_id"], name: "index_time_records_on_user_id"
   end
 
