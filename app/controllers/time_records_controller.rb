@@ -14,7 +14,6 @@ class TimeRecordsController < ApplicationController
   def create
     @time_record = TimeRecord.new(time_record_params)
 
-    authorize @time_record
     if @time_record.save
       render :show, status: :created
     else
@@ -24,22 +23,19 @@ class TimeRecordsController < ApplicationController
 
   def update
     @time_record = TimeRecord.find(params[:id])
-
-    authorize @time_record
     @time_record.update(time_record_params)
   end
 
   def destroy
     @time_record = TimeRecord.find(params[:id])
-
-    authorize @time_record
     @time_record.destroy
   end
 
   private
 
   def time_record_params
-    params.require(:time_record).permit(:user_id, :project_id, :start_time,
-                                        :end_time, :category, :label)
+    params.require(:time_record).permit(
+      :project_id, :start_time, :end_time, :category, :label
+    ).merge({ user_id: current_user.id })
   end
 end

@@ -19,7 +19,6 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
 
-    authorize @project
     if @project.save
       render :show, status: :created, location: @project
     else
@@ -48,11 +47,10 @@ class ProjectsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_project
     @project = Project.find(params[:id])
-    authorize @project
   end
 
   # Only allow a list of trusted parameters through.
   def project_params
-    params.require(:project).permit(:user_id, :name, :color)
+    params.require(:project).permit(:user_id, :name, :color).merge({ user_id: current_user.id })
   end
 end

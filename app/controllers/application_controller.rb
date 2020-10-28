@@ -28,8 +28,4 @@ class ApplicationController < ActionController::API
     render json: { message: 'You must be logged in to access that page' },
            status: :unauthorized
   end
-
-  def authorize(record)
-    head :forbidden unless record.user_id == current_user.id
-  end
 end
