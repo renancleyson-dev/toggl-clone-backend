@@ -10,7 +10,7 @@ class TimeRecord < ApplicationRecord
   validates :end_time, presence: true
   validate :check_time_conflicts
 
-  belongs_to :user
+  belongs_to :user, optional: false
   belongs_to :project, optional: true
   has_and_belongs_to_many :tags
 
