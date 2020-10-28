@@ -7,7 +7,7 @@ class TagsController < ApplicationController
   # GET /tags
   # GET /tags.json
   def index
-    @tags = Tag.all
+    @tags = current_user.all
   end
 
   # GET /tags/1
@@ -46,11 +46,14 @@ class TagsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_tag
-    @tag = Tag.find(params[:id])
+    @tag = current_user.tags.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def tag_params
-    params.require(:tag).permit(:name, :user_id, time_record_ids: [])
+    params.require(:tag).permit(
+      :name,
+      time_record_ids: []
+    ).merge({ user_id: current_user.id })
   end
 end

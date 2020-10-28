@@ -2,6 +2,8 @@
 
 # CRUD operations to the main source of data of the app
 class TimeRecordsController < ApplicationController
+  before_action :set_time_record, only: %i[update destroy]
+
   def index
     time_records = current_user.time_records
                                .order(start_time: :desc)
@@ -22,16 +24,18 @@ class TimeRecordsController < ApplicationController
   end
 
   def update
-    @time_record = TimeRecord.find(params[:id])
     @time_record.update(time_record_params)
   end
 
   def destroy
-    @time_record = TimeRecord.find(params[:id])
     @time_record.destroy
   end
 
   private
+
+  def set_time_record
+    @time_record = current_user.time_records.find(params[:id])
+  end
 
   def time_record_params
     params.require(:time_record).permit(
