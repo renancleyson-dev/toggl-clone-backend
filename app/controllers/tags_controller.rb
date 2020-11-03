@@ -7,7 +7,7 @@ class TagsController < ApplicationController
   # GET /tags
   # GET /tags.json
   def index
-    @tags = current_user.all
+    @tags = current_user.tags
   end
 
   # GET /tags/1
