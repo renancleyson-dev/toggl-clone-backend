@@ -38,8 +38,8 @@ class TimeRecordsController < ApplicationController
   end
 
   def time_record_params
-    params.require(:time_record).permit(
-      :project_id, :start_time, :end_time, :category, :label
+    params.permit(
+      :project_id, :start_time, :end_time, :category, :label, tag_ids: []
     ).merge({ user_id: current_user.id })
   end
 end
