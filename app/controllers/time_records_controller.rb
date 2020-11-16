@@ -24,7 +24,11 @@ class TimeRecordsController < ApplicationController
   end
 
   def update
-    @time_record.update(time_record_params)
+    if @time_record.update(time_record_params)
+      render :show, status: :ok, location: @time_record
+    else
+      render json: @time_record.errors.messages, status: :unprocessable_entity
+    end
   end
 
   def destroy
