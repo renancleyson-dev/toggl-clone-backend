@@ -7,8 +7,6 @@ RSpec.describe 'TimeRecords API', type: :request do
 
   before(:all) do
     @created_user = create :user,
-                           username: 'username',
-                           full_name: 'User',
                            email: 'some@email.com',
                            password: 'p1'
 

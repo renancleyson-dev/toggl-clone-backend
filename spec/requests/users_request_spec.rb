@@ -7,8 +7,6 @@ RSpec.describe 'Users Requests', type: :request do
 
   before(:all) do
     @created_user = create :user,
-                           username: 'username',
-                           full_name: 'User',
                            email: 'some@email.com',
                            password: 'p1'
 
@@ -21,25 +19,23 @@ RSpec.describe 'Users Requests', type: :request do
 
   context 'when use POST verb on /users' do
     it 'creates a regular user' do
-      @username = 'renan'
+      @email = 'renan@email.com'
       post '/users', params: {
         user: {
-          username: @username,
-          full_name: 'Renan',
-          email: 'renan@email.com',
+          email: @email,
           password: 'p1',
           password_confirmation: 'p1'
         }
       }
 
       expect(response).to have_http_status(:created)
-      expect(User.exists?(username: @username)).to be true
+      expect(User.exists?(email: @email)).to be true
     end
   end
 
   context 'when use PUT verb on /users/:id' do
     it 'updates a regular user' do
-      @update_hash = { full_name: 'Guy', email: 'e@gmail.com', password: 'p2' }
+      @update_hash = { email: 'e@gmail.com', password: 'p2' }
       put "/users/#{@created_user.id}", params: { user: @update_hash }, headers: {
         'Authorization' => "Bearer #{@auth_token}"
       }
@@ -48,7 +44,6 @@ RSpec.describe 'Users Requests', type: :request do
                                .authenticate(@update_hash[:password])
 
       expect(response).to have_http_status(:success)
-      expect(@autheticated_user.full_name).to eq(@update_hash[:full_name])
       expect(@autheticated_user.email).to eq(@update_hash[:email])
     end
   end
@@ -60,7 +55,6 @@ RSpec.describe 'Users Requests', type: :request do
       }
 
       show_user = {
-        'fullName' => @created_user.full_name,
         'email' => @created_user.email,
         'id' => @created_user.id
       }

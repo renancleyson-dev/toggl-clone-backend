@@ -7,8 +7,6 @@ FactoryBot.define do
 
     association :user,
                 factory: :user,
-                username: 'jose',
-                full_name: 'Jose',
                 email: 'Jose@gmail.com',
                 password: '123456'
   end

@@ -31,7 +31,7 @@ class UsersController < ApplicationController
       @token = JsonWebToken.encode({ user_id: @user.id })
       render :login
     else
-      render json: { message: "Username or password don't match" },
+      render json: { message: "Email or password don't match" },
              status: :unauthorized
     end
   end
@@ -39,10 +39,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username,
-                                 :full_name,
-                                 :email,
-                                 :password,
-                                 :password_confirmation)
+    params.require(:user).permit(:email,:password)
   end
 end

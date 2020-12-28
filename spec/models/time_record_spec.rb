@@ -9,8 +9,6 @@ RSpec.describe 'TimeRecord Model', type: :model do
     }
 
     @created_user = create :user,
-                           username: 'jose',
-                           full_name: 'Jose',
                            email: 'josep@gmail.com'
 
     @created_time_record = create :time_record,
