@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_23_165245) do
+ActiveRecord::Schema.define(version: 2020_12_28_014307) do
 
   create_table "projects", force: :cascade do |t|
     t.string "name"
@@ -59,9 +59,7 @@ ActiveRecord::Schema.define(version: 2020_10_23_165245) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
-    t.string "username"
     t.string "password_digest"
-    t.string "full_name"
   end
 
   add_foreign_key "tags", "users"

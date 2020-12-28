@@ -2,17 +2,10 @@
 
 # basic User model to authetication
 class User < ApplicationRecord
-  attribute :username, :string
-  attribute :full_name, :string
   attribute :email, :string
   attribute :password_digest, :string
   attribute :authentication_token, :string
 
-  validates :username, uniqueness: true, presence: true
-  validates :full_name, presence: true, format: {
-    with: /[a-zA-Z]+\z/,
-    message: 'requires to have just letters'
-  }
   validates :email, uniqueness: true, presence: true, format: {
     with: URI::MailTo::EMAIL_REGEXP,
     message: 'requires a valid email format'
