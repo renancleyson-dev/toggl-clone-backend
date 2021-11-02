@@ -19,7 +19,7 @@ class TimeRecordsController < ApplicationController
     if @time_record.save
       render :show, status: :created
     else
-      render json: @time_record.errors.messages, status: :unprocessable_entity
+      render json: @time_record.errors, status: :unprocessable_entity
     end
   end
 
@@ -27,7 +27,7 @@ class TimeRecordsController < ApplicationController
     if @time_record.update(time_record_params)
       render :show, status: :ok, location: @time_record
     else
-      render json: @time_record.errors.messages, status: :unprocessable_entity
+      render json: @time_record.errors, status: :unprocessable_entity
     end
   end
 

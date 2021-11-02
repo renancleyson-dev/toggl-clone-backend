@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     if @user.save
       render :show, status: :created
     else
-      render json: @user.errors.messages, status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
@@ -27,6 +27,7 @@ class UsersController < ApplicationController
 
   def login
     @user = User.find_by(email: params[:email])
+
     if @user&.authenticate(params[:password])
       @token = JsonWebToken.encode({ user_id: @user.id })
       render :login
@@ -39,6 +40,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email,:password)
+    params.require(:user).permit(:email).merge({ password: params[:password] })
   end
 end
