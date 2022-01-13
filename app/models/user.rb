@@ -4,7 +4,6 @@
 class User < ApplicationRecord
   attribute :email, :string
   attribute :password_digest, :string
-  attribute :authentication_token, :string
 
   validates :email, uniqueness: true, presence: true, format: {
     with: URI::MailTo::EMAIL_REGEXP,

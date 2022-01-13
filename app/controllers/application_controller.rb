@@ -14,11 +14,11 @@ class ApplicationController < ActionController::API
     auth_token = auth_header.split(' ')[1]
     decoded_jwt = JsonWebToken.decode(auth_token)
 
-    if !decoded_jwt
+    if decoded_jwt
+      User.find(decoded_jwt['user_id'])
+    else
       render json: { message: 'Your session expired' },
              status: :unauthorized
-    else
-      User.find(decoded_jwt['user_id'])
     end
   end
 
